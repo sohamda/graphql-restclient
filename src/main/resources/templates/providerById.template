@@ -1,0 +1,14 @@
+{
+    providerById(id: {{providerId}} ) {
+        {{#p_id}} id {{/p_id}}
+        {{#p_name}} name {{/p_name}}
+        {{#p_description}} description {{/p_description}}
+        {{#service}}
+        services {
+            {{#s_id}} id {{/s_id}}
+            {{#s_name}} name {{/s_name}}
+            {{#s_description}} description {{/s_description}}
+        }
+        {{/service}}
+    }
+}
