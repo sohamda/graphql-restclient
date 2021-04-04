@@ -26,6 +26,15 @@ public class MustacheResolver {
 
     @Value( "${graphql.endpoint}" )
     private String URL;
+    @Value( "${template.services}" )
+    private String servicesTemplate;
+    @Value( "${template.serviceById}" )
+    private String serviceByIdTemplate;
+    @Value( "${template.providers}" )
+    private String providersTemplate;
+    @Value( "${template.providerById}" )
+    private String provierByIdTemplate;
+
 
     public void invokeServicesEndpoint(RestTemplate restTemplate) throws IOException {
         ResponseEntity<ServicesResponse> resp = restTemplate.postForEntity(URL,
@@ -53,7 +62,7 @@ public class MustacheResolver {
 
     private String getServicesEndpointBody() throws IOException {
 
-        Template template = Mustache.compiler().defaultValue("").compile(getTemplateContent("templates/services.template"));
+        Template template = Mustache.compiler().defaultValue("").compile(getTemplateContent(servicesTemplate));
 
         Map<String, Boolean> data = new HashMap<>();
         data.put("s_id", Boolean.TRUE);
@@ -66,7 +75,7 @@ public class MustacheResolver {
 
     private String getServiceByIdEndpointBody() throws IOException {
 
-        Template template = Mustache.compiler().defaultValue("").compile(getTemplateContent("templates/serviceById.template"));
+        Template template = Mustache.compiler().defaultValue("").compile(getTemplateContent(serviceByIdTemplate));
 
         Map<String, Object> data = new HashMap<>();
         data.put("serviceId", "123");
@@ -78,7 +87,7 @@ public class MustacheResolver {
 
     private String getProviderByIdEndpointBody() throws IOException {
 
-        Template template = Mustache.compiler().defaultValue("").compile(getTemplateContent("templates/providerById.template"));
+        Template template = Mustache.compiler().defaultValue("").compile(getTemplateContent(provierByIdTemplate));
 
         Map<String, Object> data = new HashMap<>();
         data.put("providerId", "2");
@@ -91,7 +100,7 @@ public class MustacheResolver {
 
     private String getProvidersEndpointBody() throws IOException {
 
-        Template template = Mustache.compiler().defaultValue("").compile(getTemplateContent("templates/providers.template"));
+        Template template = Mustache.compiler().defaultValue("").compile(getTemplateContent(providersTemplate));
 
         Map<String, Boolean> data = new HashMap<>();
         data.put("p_name", Boolean.TRUE);
@@ -107,31 +116,7 @@ public class MustacheResolver {
 
     private HttpHeaders getHeaders() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("content-type", "application/graphql");
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/graphql");
         return headers;
     }
-
-
-    /*
-    @EventListener
-    public void onApplicationEvent(ApplicationReadyEvent event) {
-        try {
-            WebClient webClient = WebClient.builder()
-                    .baseUrl("http://localhost:8083")
-                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .build();
-
-            Mono<String> resp = webClient.post().uri("/graphql/providerservice")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(Mono.just(getInvokeServiceEndpointBody()), String.class)
-                    //.bodyValue(BodyInserters.fromValue(getInvokeServiceEndpointBody()))
-                    .accept(MediaType.APPLICATION_JSON)
-                    .retrieve().bodyToMono(String.class);
-            System.out.println(resp.block());
-            //getInvokeServiceEndpointBody();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-*/
 }
