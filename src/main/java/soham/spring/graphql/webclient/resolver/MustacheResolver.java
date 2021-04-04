@@ -2,8 +2,8 @@ package soham.spring.graphql.webclient.resolver;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -21,15 +21,39 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class MustacheResolver {
 
-    private final String URL = "http://localhost:8083/graphql/providerservice";
+    @Value( "${graphql.endpoint}" )
+    private String URL;
+
+    public void invokeServicesEndpoint(RestTemplate restTemplate) throws IOException {
+        ResponseEntity<ServicesResponse> resp = restTemplate.postForEntity(URL,
+                new HttpEntity<>(getServicesEndpointBody(), getHeaders()), ServicesResponse.class);
+        log.info(resp.toString());
+    }
+
+    public void invokeServiceByIdEndpoint(RestTemplate restTemplate) throws IOException {
+        ResponseEntity<ServiceResponse> resp = restTemplate.postForEntity(URL,
+                new HttpEntity<>(getServiceByIdEndpointBody(), getHeaders()), ServiceResponse.class);
+        log.info(resp.toString());
+    }
+
+    public void invokeProviderByIdEndpoint(RestTemplate restTemplate) throws IOException {
+        ResponseEntity<ProviderResponse> resp = restTemplate.postForEntity(URL,
+                new HttpEntity<>(getProviderByIdEndpointBody(), getHeaders()), ProviderResponse.class);
+        log.info(resp.toString());
+    }
+
+    public void invokeProvidersEndpoint(RestTemplate restTemplate) throws IOException {
+        ResponseEntity<ProvidersResponse> resp = restTemplate.postForEntity(URL,
+                new HttpEntity<>(getProvidersEndpointBody(), getHeaders()), ProvidersResponse.class);
+        log.info(resp.toString());
+    }
 
     private String getServicesEndpointBody() throws IOException {
 
-        String tmpl = getTemplateContent("templates/services.template");
-
-        Template template = Mustache.compiler().defaultValue("").compile(tmpl);
+        Template template = Mustache.compiler().defaultValue("").compile(getTemplateContent("templates/services.template"));
 
         Map<String, Boolean> data = new HashMap<>();
         data.put("s_id", Boolean.TRUE);
@@ -42,9 +66,7 @@ public class MustacheResolver {
 
     private String getServiceByIdEndpointBody() throws IOException {
 
-        String tmpl = getTemplateContent("templates/serviceById.template");
-
-        Template template = Mustache.compiler().defaultValue("").compile(tmpl);
+        Template template = Mustache.compiler().defaultValue("").compile(getTemplateContent("templates/serviceById.template"));
 
         Map<String, Object> data = new HashMap<>();
         data.put("serviceId", "2");
@@ -56,9 +78,7 @@ public class MustacheResolver {
 
     private String getProviderByIdEndpointBody() throws IOException {
 
-        String tmpl = getTemplateContent("templates/providerById.template");
-
-        Template template = Mustache.compiler().defaultValue("").compile(tmpl);
+        Template template = Mustache.compiler().defaultValue("").compile(getTemplateContent("templates/providerById.template"));
 
         Map<String, Object> data = new HashMap<>();
         data.put("providerId", "2");
@@ -71,9 +91,7 @@ public class MustacheResolver {
 
     private String getProvidersEndpointBody() throws IOException {
 
-        String tmpl = getTemplateContent("templates/providers.template");
-
-        Template template = Mustache.compiler().defaultValue("").compile(tmpl);
+        Template template = Mustache.compiler().defaultValue("").compile(getTemplateContent("templates/providers.template"));
 
         Map<String, Boolean> data = new HashMap<>();
         data.put("p_name", Boolean.TRUE);
@@ -87,51 +105,11 @@ public class MustacheResolver {
         return new String(resource.getInputStream().readAllBytes());
     }
 
-    @EventListener
-    public void withRestTemplate(ApplicationReadyEvent event) {
-        try {
-            RestTemplate restTemplate = new RestTemplate();
-
-            invokeServicesEndpoint(restTemplate);
-            invokeServiceByIdEndpoint(restTemplate);
-
-            invokeProviderByIdEndpoint(restTemplate);
-            invokeProvidersEndpoint(restTemplate);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private HttpHeaders getHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("content-type", "application/graphql");
         return headers;
     }
-
-    private void invokeServicesEndpoint(RestTemplate restTemplate) throws IOException {
-        ResponseEntity<ServicesResponse> resp = restTemplate.postForEntity(URL,
-                new HttpEntity<>(getServicesEndpointBody(), getHeaders()), ServicesResponse.class);
-        System.out.println(resp);
-    }
-
-    private void invokeServiceByIdEndpoint(RestTemplate restTemplate) throws IOException {
-        ResponseEntity<ServiceResponse> resp = restTemplate.postForEntity(URL,
-                new HttpEntity<>(getServiceByIdEndpointBody(), getHeaders()), ServiceResponse.class);
-        System.out.println(resp);
-    }
-
-    private void invokeProviderByIdEndpoint(RestTemplate restTemplate) throws IOException {
-        ResponseEntity<ProviderResponse> resp = restTemplate.postForEntity(URL,
-                new HttpEntity<>(getProviderByIdEndpointBody(), getHeaders()), ProviderResponse.class);
-        System.out.println(resp);
-    }
-
-    private void invokeProvidersEndpoint(RestTemplate restTemplate) throws IOException {
-        ResponseEntity<ProvidersResponse> resp = restTemplate.postForEntity(URL,
-                new HttpEntity<>(getProvidersEndpointBody(), getHeaders()), ProvidersResponse.class);
-        System.out.println(resp);
-    }
-
 
 
     /*
