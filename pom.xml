@@ -15,17 +15,18 @@
 	<description>Spring Boot project to Rest Client for a GraphQL endpoint</description>
 	<properties>
 		<java.version>11</java.version>
+		<jmustache-version>1.15</jmustache-version>
+		<junit-version>4.13</junit-version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.samskivert</groupId>
 			<artifactId>jmustache</artifactId>
-			<version>1.15</version>
+			<version>${jmustache-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -40,14 +41,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13</version>
+			<version>${junit-version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
