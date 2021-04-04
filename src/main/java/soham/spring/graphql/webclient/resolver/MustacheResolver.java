@@ -69,7 +69,7 @@ public class MustacheResolver {
         Template template = Mustache.compiler().defaultValue("").compile(getTemplateContent("templates/serviceById.template"));
 
         Map<String, Object> data = new HashMap<>();
-        data.put("serviceId", "2");
+        data.put("serviceId", "123");
         data.put("s_id", Boolean.TRUE);
         data.put("s_name", Boolean.TRUE);
         data.put("s_description", Boolean.TRUE);
