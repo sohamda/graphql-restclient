@@ -29,6 +29,7 @@ public class RestTemplateClient {
         ResponseEntity<ServicesResponse> resp = restTemplate.postForEntity(URL,
                 new HttpEntity<>(mustacheResolver.getServicesEndpointBody(), mustacheResolver.getHeaders()),
                 ServicesResponse.class);
+        log.info("********* Response of Services Endpoint with RestTemplate *************");
         log.info(resp.toString());
     }
 
@@ -36,6 +37,7 @@ public class RestTemplateClient {
         ResponseEntity<ServiceResponse> resp = restTemplate.postForEntity(URL,
                 new HttpEntity<>(mustacheResolver.getServiceByIdEndpointBody("123"), mustacheResolver.getHeaders()),
                 ServiceResponse.class);
+        log.info("********* Response of ServiceByID Endpoint with RestTemplate *************");
         log.info(resp.toString());
     }
 
@@ -43,6 +45,7 @@ public class RestTemplateClient {
         ResponseEntity<ProviderResponse> resp = restTemplate.postForEntity(URL,
                 new HttpEntity<>(mustacheResolver.getProviderByIdEndpointBody(), mustacheResolver.getHeaders()),
                 ProviderResponse.class);
+        log.info("********* Response of ProviderByID Endpoint with RestTemplate *************");
         log.info(resp.toString());
     }
 
@@ -50,6 +53,7 @@ public class RestTemplateClient {
         ResponseEntity<ProvidersResponse> resp = restTemplate.postForEntity(URL,
                 new HttpEntity<>(mustacheResolver.getProvidersEndpointBody(), mustacheResolver.getHeaders()),
                 ProvidersResponse.class);
+        log.info("********* Response of Providers Endpoint with RestTemplate *************");
         log.info(resp.toString());
     }
 }
