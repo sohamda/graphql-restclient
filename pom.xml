@@ -17,6 +17,7 @@
 		<java.version>11</java.version>
 		<jmustache-version>1.15</jmustache-version>
 		<junit-version>4.13</junit-version>
+		<graphql-webclient-spring-boot-starter>1.0.0</graphql-webclient-spring-boot-starter>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -32,6 +33,12 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>graphql-webclient-spring-boot-starter</artifactId>
+			<version>${graphql-webclient-spring-boot-starter}</version>
 		</dependency>
 
 

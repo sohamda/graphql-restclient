@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.web.client.RestTemplate;
-import soham.spring.graphql.webclient.resolver.MustacheResolver;
+import soham.spring.graphql.webclient.clients.GraphQLClient;
+import soham.spring.graphql.webclient.clients.RestTemplateClient;
 
 import java.io.IOException;
 
@@ -14,7 +15,9 @@ import java.io.IOException;
 public class GraphqlWebclientApplication {
 
 	@Autowired
-	MustacheResolver mustacheResolver;
+	RestTemplateClient restTemplateClient;
+	@Autowired
+	GraphQLClient graphQLClient;
 
 	public static void main(String[] args) {
 		SpringApplication.run(GraphqlWebclientApplication.class, args);
@@ -24,16 +27,28 @@ public class GraphqlWebclientApplication {
 	@EventListener
 	public void withRestTemplate(ApplicationReadyEvent event) {
 		try {
-			RestTemplate restTemplate = new RestTemplate();
-
-			mustacheResolver.invokeServicesEndpoint(restTemplate);
-			mustacheResolver.invokeServiceByIdEndpoint(restTemplate);
-
-			mustacheResolver.invokeProviderByIdEndpoint(restTemplate);
-			mustacheResolver.invokeProvidersEndpoint(restTemplate);
+			usingRestTemplate();
+			usingGraphQLWebCLient();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void usingGraphQLWebCLient() throws IOException {
+		graphQLClient.invokeServicesEndpoint();
+		graphQLClient.invokeServiceByIdEndpoint();
+		graphQLClient.invokeProviderByIdEndpoint();
+		graphQLClient.invokeProvidersEndpoint();
+		graphQLClient.invokeServiceByIdEndpointWithErrors();
+	}
+
+	private void usingRestTemplate() throws IOException {
+		RestTemplate restTemplate = new RestTemplate();
+
+		restTemplateClient.invokeServicesEndpoint(restTemplate);
+		restTemplateClient.invokeServiceByIdEndpoint(restTemplate);
+		restTemplateClient.invokeProviderByIdEndpoint(restTemplate);
+		restTemplateClient.invokeProvidersEndpoint(restTemplate);
 	}
 
 }
