@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -27,7 +28,7 @@ public class RestTemplateClient {
 
     public void invokeServicesEndpoint(RestTemplate restTemplate) throws IOException {
         ResponseEntity<ServicesResponse> resp = restTemplate.postForEntity(URL,
-                new HttpEntity<>(mustacheResolver.getServicesEndpointBody(), mustacheResolver.getHeaders()),
+                new HttpEntity<>(mustacheResolver.getServicesEndpointBody(), getHeaders()),
                 ServicesResponse.class);
         log.info("********* Response of Services Endpoint with RestTemplate *************");
         log.info(resp.toString());
@@ -35,7 +36,7 @@ public class RestTemplateClient {
 
     public void invokeServiceByIdEndpoint(RestTemplate restTemplate) throws IOException {
         ResponseEntity<ServiceResponse> resp = restTemplate.postForEntity(URL,
-                new HttpEntity<>(mustacheResolver.getServiceByIdEndpointBody("123"), mustacheResolver.getHeaders()),
+                new HttpEntity<>(mustacheResolver.getServiceByIdEndpointBody("123"), getHeaders()),
                 ServiceResponse.class);
         log.info("********* Response of ServiceByID Endpoint with RestTemplate *************");
         log.info(resp.toString());
@@ -43,7 +44,7 @@ public class RestTemplateClient {
 
     public void invokeProviderByIdEndpoint(RestTemplate restTemplate) throws IOException {
         ResponseEntity<ProviderResponse> resp = restTemplate.postForEntity(URL,
-                new HttpEntity<>(mustacheResolver.getProviderByIdEndpointBody(), mustacheResolver.getHeaders()),
+                new HttpEntity<>(mustacheResolver.getProviderByIdEndpointBody(), getHeaders()),
                 ProviderResponse.class);
         log.info("********* Response of ProviderByID Endpoint with RestTemplate *************");
         log.info(resp.toString());
@@ -51,9 +52,15 @@ public class RestTemplateClient {
 
     public void invokeProvidersEndpoint(RestTemplate restTemplate) throws IOException {
         ResponseEntity<ProvidersResponse> resp = restTemplate.postForEntity(URL,
-                new HttpEntity<>(mustacheResolver.getProvidersEndpointBody(), mustacheResolver.getHeaders()),
+                new HttpEntity<>(mustacheResolver.getProvidersEndpointBody(), getHeaders()),
                 ProvidersResponse.class);
         log.info("********* Response of Providers Endpoint with RestTemplate *************");
         log.info(resp.toString());
+    }
+
+    private HttpHeaders getHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/graphql");
+        return headers;
     }
 }

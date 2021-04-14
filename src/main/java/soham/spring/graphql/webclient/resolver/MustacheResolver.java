@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -25,12 +24,6 @@ public class MustacheResolver {
     private String providersTemplate;
     @Value( "${template.providerById}" )
     private String provierByIdTemplate;
-
-    public HttpHeaders getHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/graphql");
-        return headers;
-    }
 
     public String getServicesEndpointBody() throws IOException {
 
