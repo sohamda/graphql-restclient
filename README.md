@@ -11,4 +11,4 @@ A sample spring boot application which illustrates create java clients for graph
 ## To run this :
 `` mvn clean install ``
 
-`` mvn sprint-boot:run``
+`` mvn spring-boot:run``
