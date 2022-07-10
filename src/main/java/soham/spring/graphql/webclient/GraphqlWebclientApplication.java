@@ -1,23 +1,18 @@
 package soham.spring.graphql.webclient;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.web.client.RestTemplate;
-import soham.spring.graphql.webclient.clients.GraphQLClient;
-import soham.spring.graphql.webclient.clients.RestTemplateClient;
 
-import java.io.IOException;
 
 @SpringBootApplication
 public class GraphqlWebclientApplication {
 
-	@Autowired
+	/*@Autowired
 	RestTemplateClient restTemplateClient;
 	@Autowired
-	GraphQLClient graphQLClient;
+	GraphQLClient graphQLClient;*/
 
 	public static void main(String[] args) {
 		SpringApplication.run(GraphqlWebclientApplication.class, args);
@@ -26,15 +21,15 @@ public class GraphqlWebclientApplication {
 
 	@EventListener
 	public void withRestTemplate(ApplicationReadyEvent event) {
-		try {
+		/*try {
 			usingRestTemplate();
 			usingGraphQLWebCLient();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
-	private void usingGraphQLWebCLient() throws IOException {
+	/*private void usingGraphQLWebCLient() throws IOException {
 		graphQLClient.invokeServicesEndpoint();
 		graphQLClient.invokeServiceByIdEndpoint();
 		graphQLClient.invokeProviderByIdEndpoint();
@@ -49,6 +44,6 @@ public class GraphqlWebclientApplication {
 		restTemplateClient.invokeServiceByIdEndpoint(restTemplate);
 		restTemplateClient.invokeProviderByIdEndpoint(restTemplate);
 		restTemplateClient.invokeProvidersEndpoint(restTemplate);
-	}
+	}*/
 
 }
