@@ -1,7 +1,7 @@
 package soham.spring.graphql.webclient.clients;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,10 +18,10 @@ import java.io.IOException;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class RestTemplateClient {
 
-    @Autowired
-    private MustacheResolver mustacheResolver;
+    private final MustacheResolver mustacheResolver;
 
     @Value( "${graphql.endpoint}" )
     private String URL;

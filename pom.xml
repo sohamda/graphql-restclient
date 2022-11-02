@@ -14,9 +14,8 @@
 	<name>graphql-restclient</name>
 	<description>Spring Boot project to Rest Client for a GraphQL endpoint</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 		<jmustache-version>1.15</jmustache-version>
-		<junit-version>4.13</junit-version>
 		<graphql-webclient-spring-boot-starter>1.0.0</graphql-webclient-spring-boot-starter>
 	</properties>
 	<dependencies>
@@ -32,6 +31,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<version>1.18.24</version>
 			<optional>true</optional>
 		</dependency>
 
@@ -47,12 +47,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit-version}</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -65,6 +59,7 @@
 						<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
+							<version>1.18.24</version>
 						</exclude>
 					</excludes>
 				</configuration>

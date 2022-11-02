@@ -3,8 +3,8 @@ package soham.spring.graphql.webclient.clients;
 import graphql.kickstart.spring.webclient.boot.GraphQLRequest;
 import graphql.kickstart.spring.webclient.boot.GraphQLResponse;
 import graphql.kickstart.spring.webclient.boot.GraphQLWebClient;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import soham.spring.graphql.webclient.repsonse.entity.Provider;
 import soham.spring.graphql.webclient.repsonse.entity.Service;
@@ -14,13 +14,11 @@ import java.io.IOException;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class GraphQLClient {
 
-    @Autowired
-    private GraphQLWebClient graphQLWebClient;
-
-    @Autowired
-    private MustacheResolver mustacheResolver;
+    private final GraphQLWebClient graphQLWebClient;
+    private final MustacheResolver mustacheResolver;
 
 
     public void invokeServicesEndpoint() throws IOException {

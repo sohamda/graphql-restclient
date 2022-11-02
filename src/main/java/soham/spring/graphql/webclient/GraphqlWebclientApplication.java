@@ -1,6 +1,6 @@
 package soham.spring.graphql.webclient;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -12,12 +12,11 @@ import soham.spring.graphql.webclient.clients.RestTemplateClient;
 import java.io.IOException;
 
 @SpringBootApplication
+@RequiredArgsConstructor
 public class GraphqlWebclientApplication {
 
-	@Autowired
-	RestTemplateClient restTemplateClient;
-	@Autowired
-	GraphQLClient graphQLClient;
+	private final RestTemplateClient restTemplateClient;
+	private final GraphQLClient graphQLClient;
 
 	public static void main(String[] args) {
 		SpringApplication.run(GraphqlWebclientApplication.class, args);
